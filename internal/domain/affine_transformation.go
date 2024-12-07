@@ -1,8 +1,6 @@
 package domain
 
-import (
-	randgenerator "github.com/es-debug/backend-academy-2024-go-template/pkg/rand_generator"
-)
+import "math/rand"
 
 type AffineTransformation struct {
 	A, B, C, D, E, F float64 //  Coefficients of the affine transformation matrix.
@@ -13,12 +11,12 @@ func NewAffineTransformationMatrix() *AffineTransformation {
 	var a, b, c, d, e, f float64
 
 	for {
-		a = randgenerator.Float64()*2 - 1
-		b = randgenerator.Float64()*2 - 1
-		d = randgenerator.Float64()*2 - 1
-		e = randgenerator.Float64()*2 - 1
-		c = randgenerator.Float64()*2 - 1
-		f = randgenerator.Float64()*2 - 1
+		a = rand.Float64()*2 - 1
+		b = rand.Float64()*2 - 1
+		d = rand.Float64()*2 - 1
+		e = rand.Float64()*2 - 1
+		c = rand.Float64()*2 - 1
+		f = rand.Float64()*2 - 1
 
 		// Check that the transformation is compressive.
 		if a*a+d*d < 1 && b*b+e*e < 1 && a*a+b*b+d*d+e*e < 1+(a*e-b*d)*(a*e-b*d) {
@@ -29,9 +27,9 @@ func NewAffineTransformationMatrix() *AffineTransformation {
 	return &AffineTransformation{
 		A: a, B: b, C: c, D: d, E: e, F: f,
 		RGB: RGB{
-			randgenerator.Uint8(255),
-			randgenerator.Uint8(255),
-			randgenerator.Uint8(255),
+			R: rand.Intn(256),
+			G: rand.Intn(256),
+			B: rand.Intn(256),
 		},
 	}
 }
