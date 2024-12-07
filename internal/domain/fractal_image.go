@@ -25,3 +25,7 @@ func (fi *FractalImage) Contains(x, y int) bool {
 func (fi *FractalImage) Pixel(x, y int) *Pixel {
 	return &fi.Data[y*fi.Width+x]
 }
+
+func (fi *FractalImage) GetAspectRatio() float64 {
+	return float64(fi.Width) / float64(fi.Height)
+}
