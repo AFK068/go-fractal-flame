@@ -40,3 +40,21 @@ func GetValue(message string, minValue, maxValue float64) (float64, error) {
 
 	return value, nil
 }
+
+func GetTrueOrFalse(message string) (bool, error) {
+	promt := promptui.Select{
+		Label: message,
+		Items: []string{"Yes", "No"},
+	}
+
+	_, result, err := promt.Run()
+	if err != nil {
+		return false, fmt.Errorf("prompting value: %w", err)
+	}
+
+	if result == "Yes" {
+		return true, nil
+	}
+
+	return false, nil
+}
