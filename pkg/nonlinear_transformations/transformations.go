@@ -63,6 +63,17 @@ func (t *ExTransformation) Apply(x, y float64) (newX, newY float64) {
 	return
 }
 
+type ExponentialTransformation struct{}
+
+func (t *ExponentialTransformation) Apply(x, y float64) (newX, newY float64) {
+	coef := math.Exp(x - 1)
+
+	newX = coef * math.Cos(math.Pi*y)
+	newY = coef * math.Sin(math.Pi*y)
+
+	return
+}
+
 type FisheyeTransformation struct{}
 
 func (t *FisheyeTransformation) Apply(x, y float64) (newX, newY float64) {
