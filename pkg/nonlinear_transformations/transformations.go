@@ -2,8 +2,7 @@ package transformations
 
 import (
 	"math"
-
-	randgenerator "github.com/es-debug/backend-academy-2024-go-template/pkg/rand_generator"
+	"math/rand"
 )
 
 type SinusoidalTransformation struct{}
@@ -96,8 +95,8 @@ func (t *TangentTransformation) Apply(x, y float64) (newX, newY float64) {
 type NoiseTransformation struct{}
 
 func (t *NoiseTransformation) Apply(x, y float64) (newX, newY float64) {
-	Psi1 := randgenerator.Float64()
-	Psi2 := randgenerator.Float64()
+	Psi1 := rand.Float64() //nolint:gosec // crypto/rand bad performance
+	Psi2 := rand.Float64() //nolint:gosec // crypto/rand bad performance
 
 	newX = Psi1 * x * math.Cos(2*math.Pi*Psi2)
 	newY = Psi1 * y * math.Sin(2*math.Pi*Psi2)
