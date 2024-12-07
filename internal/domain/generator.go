@@ -15,7 +15,7 @@ type Generator struct {
 	NonlinearTransformation []Transformation
 }
 
-func (g *Generator) Generate(n, it int) {
+func (g *Generator) Generate(n, it int, gamma float64) {
 	var wg sync.WaitGroup
 
 	wg.Add(len(g.NonlinearTransformation))
@@ -25,6 +25,7 @@ func (g *Generator) Generate(n, it int) {
 	}
 
 	wg.Wait()
+	g.FractalImage.GammaCorrection(gamma)
 }
 
 func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, wg *sync.WaitGroup) {
