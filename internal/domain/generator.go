@@ -15,6 +15,14 @@ type Generator struct {
 	NonlinearTransformation []Transformation
 }
 
+func NewGenerator(fractalImage FractalImage, affine []AffineTransformation, nonlinear []Transformation) *Generator {
+	return &Generator{
+		FractalImage:            &fractalImage,
+		AffineTransformation:    affine,
+		NonlinearTransformation: nonlinear,
+	}
+}
+
 func (g *Generator) Generate(n, it int, gamma float64, gammaFlag, symmetryFlag bool) {
 	var wg sync.WaitGroup
 
