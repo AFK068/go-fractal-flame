@@ -7,6 +7,7 @@ type Pixel struct {
 	X, Y     int
 	RGB      RGB
 	HitCount uint64
+	Normal   float64
 }
 
 // Hit increments the hit count of the pixel.
