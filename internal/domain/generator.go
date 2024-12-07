@@ -15,6 +15,18 @@ type Generator struct {
 	NonlinearTransformation []Transformation
 }
 
+func (g *Generator) Generate(n, it int) {
+	var wg sync.WaitGroup
+
+	wg.Add(len(g.NonlinearTransformation))
+
+	for routine := 0; routine < len(g.NonlinearTransformation); routine++ {
+		go g.Render(n, it, (g.NonlinearTransformation)[routine], &wg)
+	}
+
+	wg.Wait()
+}
+
 func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, wg *sync.WaitGroup) {
 	defer wg.Done()
 
