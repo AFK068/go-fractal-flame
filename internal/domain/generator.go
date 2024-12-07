@@ -15,20 +15,23 @@ type Generator struct {
 	NonlinearTransformation []Transformation
 }
 
-func (g *Generator) Generate(n, it int, gamma float64) {
+func (g *Generator) Generate(n, it int, gamma float64, gammaFlag, symmetryFlag bool) {
 	var wg sync.WaitGroup
 
 	wg.Add(len(g.NonlinearTransformation))
 
 	for routine := 0; routine < len(g.NonlinearTransformation); routine++ {
-		go g.Render(n, it, (g.NonlinearTransformation)[routine], &wg)
+		go g.Render(n, it, (g.NonlinearTransformation)[routine], symmetryFlag, &wg)
 	}
 
 	wg.Wait()
-	g.FractalImage.GammaCorrection(gamma)
+
+	if gammaFlag {
+		g.FractalImage.GammaCorrection(gamma)
+	}
 }
 
-func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, wg *sync.WaitGroup) {
+func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, symmetryFlag bool, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	XMIN, XMAX := g.FractalImage.GetAspectRatio()*-1, g.FractalImage.GetAspectRatio()
@@ -44,9 +47,22 @@ func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, w
 			newX, newY = affineTransformation.Apply(newX, newY)
 			newX, newY = nonlinearTransformations.Apply(newX, newY)
 
+			tempX, tempY := newX, newY
+
+			if symmetryFlag {
+				switch {
+				case step%4 == 0:
+					tempX = -tempX
+				case step%3 == 0:
+					tempX, tempY = -tempX, -tempY
+				case step%2 == 0:
+					tempY = -tempY
+				}
+			}
+
 			if step >= 0 && newX >= XMIN && newX <= XMAX && newY >= YMIN && newY <= YMAX {
-				x1 := int((newX - XMIN) / (XMAX - XMIN) * float64(g.FractalImage.Width))
-				y1 := int((newY - YMIN) / (YMAX - YMIN) * float64(g.FractalImage.Height))
+				x1 := int((tempX - XMIN) / (XMAX - XMIN) * float64(g.FractalImage.Width))
+				y1 := int((tempY - YMIN) / (YMAX - YMIN) * float64(g.FractalImage.Height))
 
 				if g.FractalImage.Contains(x1, y1) {
 					pixel := g.FractalImage.Pixel(x1, y1)
