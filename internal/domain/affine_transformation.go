@@ -35,3 +35,10 @@ func NewAffineTransformationMatrix() *AffineTransformation {
 		},
 	}
 }
+
+func (t *AffineTransformation) Apply(x, y float64) (newX, newY float64) {
+	newX = t.A*x + t.B*y + t.C
+	newY = t.D*x + t.E*y + t.F
+
+	return newX, newY
+}
