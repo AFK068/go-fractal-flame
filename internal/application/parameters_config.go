@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/userinteraction"
 )
 
 type ParametersConfig struct{}
 
 func (df *ParametersConfig) InitializeIterations() (iterations float64, err error) {
-	iterations, err = infrastructure.GetValue("Enter iterations (min: 10.0000, max: 3.000.000, recommended: 1.000.000): ", 100000, 3000000)
+	iterations, err = userinteraction.GetValue("Enter iterations (min: 10.0000, max: 3.000.000, recommended: 1.000.000): ", 100000, 3000000)
 	if err != nil {
 		slog.Error("failed to get iterations", slog.String("error", err.Error()))
 
@@ -23,7 +23,7 @@ func (df *ParametersConfig) InitializeIterations() (iterations float64, err erro
 }
 
 func (df *ParametersConfig) InitializeGamma() (gamma float64, flag bool, err error) {
-	gammaFlag, err := infrastructure.GetTrueOrFalse("Do you want to set gamma?")
+	gammaFlag, err := userinteraction.GetTrueOrFalse("Do you want to set gamma?")
 	if err != nil {
 		slog.Error("failed to get gamma flag", slog.String("error", err.Error()))
 
@@ -36,7 +36,7 @@ func (df *ParametersConfig) InitializeGamma() (gamma float64, flag bool, err err
 		return 0, false, nil
 	}
 
-	gamma, err = infrastructure.GetValue("Enter gamma (min: 0.1, max: 10, recommended: 2.2): ", 0.1, 10)
+	gamma, err = userinteraction.GetValue("Enter gamma (min: 0.1, max: 10, recommended: 2.2): ", 0.1, 10)
 	if err != nil {
 		slog.Error("failed to get gamma", slog.String("error", err.Error()))
 
@@ -49,7 +49,7 @@ func (df *ParametersConfig) InitializeGamma() (gamma float64, flag bool, err err
 }
 
 func (df *ParametersConfig) InitializeSymmetry() (bool, error) {
-	symmetry, err := infrastructure.GetTrueOrFalse("Do you want to set symmetry?")
+	symmetry, err := userinteraction.GetTrueOrFalse("Do you want to set symmetry?")
 	if err != nil {
 		slog.Error("failed to get symmetry", slog.String("error", err.Error()))
 
@@ -62,7 +62,7 @@ func (df *ParametersConfig) InitializeSymmetry() (bool, error) {
 }
 
 func (df *ParametersConfig) InitializeConcurrent() (bool, error) {
-	concurrent, err := infrastructure.GetTrueOrFalse("Do you want to use concurrent mode?")
+	concurrent, err := userinteraction.GetTrueOrFalse("Do you want to use concurrent mode?")
 	if err != nil {
 		slog.Error("failed to get concurrent", slog.String("error", err.Error()))
 

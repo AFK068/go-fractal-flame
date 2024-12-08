@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/application"
-	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/imageutils"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/logger"
 )
 
@@ -53,7 +53,7 @@ func main() {
 		parametrs.Concurrent,
 	)
 
-	err = infrastructure.SaveImage(generator.FractalImage, "fractal.png")
+	err = imageutils.SaveImage(generator.FractalImage, "fractal.png")
 	if err != nil {
 		slog.Error("failed to save image", slog.String("error", err.Error()))
 		fmt.Println(err)

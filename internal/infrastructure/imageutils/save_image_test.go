@@ -1,4 +1,4 @@
-package infrastructure_test
+package imageutils_test
 
 import (
 	"image"
@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
-	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/imageutils"
 )
 
 func TestSaveImage(t *testing.T) {
@@ -30,7 +30,7 @@ func TestSaveImage(t *testing.T) {
 
 	// Save the image.
 	filename := "test_fractal.png"
-	err := infrastructure.SaveImage(img, filename)
+	err := imageutils.SaveImage(img, filename)
 	assert.NoError(t, err, "SaveImage should not return an error")
 
 	// Check that the file was created.
