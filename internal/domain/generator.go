@@ -23,38 +23,61 @@ func NewGenerator(fractalImage FractalImage, affine []AffineTransformation, nonl
 	}
 }
 
-func (g *Generator) Generate(n, it int, gamma float64, gammaFlag, symmetryFlag bool) {
-	var wg sync.WaitGroup
-
-	wg.Add(len(g.NonlinearTransformation))
-
-	for routine := 0; routine < len(g.NonlinearTransformation); routine++ {
-		go g.Render(n, it, (g.NonlinearTransformation)[routine], symmetryFlag, &wg)
+func (g *Generator) Generate(n, it int, gamma float64, gammaFlag, symmetryFlag, useConcurrency bool) {
+	if useConcurrency {
+		g.generateConcurrent(n, it, symmetryFlag)
+	} else {
+		g.generateSequential(n, it, symmetryFlag)
 	}
-
-	wg.Wait()
 
 	if gammaFlag {
 		g.FractalImage.GammaCorrection(gamma)
 	}
 }
 
-func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, symmetryFlag bool, wg *sync.WaitGroup) {
-	defer wg.Done()
+// Multi-threaded version.
+func (g *Generator) generateConcurrent(n, it int, symmetryFlag bool) {
+	var wg sync.WaitGroup
+
+	wg.Add(len(g.NonlinearTransformation))
+
+	for _, transformation := range g.NonlinearTransformation {
+		go g.render(n, it, transformation, symmetryFlag, &wg)
+	}
+
+	wg.Wait()
+}
+
+// Single-threaded version (it is said in the technical specifications to implement).
+func (g *Generator) generateSequential(n, it int, symmetryFlag bool) {
+	for _, transformation := range g.NonlinearTransformation {
+		g.render(n, it, transformation, symmetryFlag, nil)
+	}
+}
+
+func (g *Generator) render(n, it int, nonlinearTransformations Transformation, symmetryFlag bool, wg *sync.WaitGroup) {
+	if wg != nil {
+		defer wg.Done()
+	}
 
 	XMIN, XMAX := g.FractalImage.GetAspectRatio()*-1, g.FractalImage.GetAspectRatio()
 	YMIN, YMAX := -1.0, 1.0
 
 	for num := 0; num < n; num++ {
-		newX := XMIN + rand.Float64()*(XMAX-XMIN)
-		newY := YMIN + rand.Float64()*(YMAX-YMIN)
+		// Ctypto rand is work so slow, so we use math/rand.
+		newX := XMIN + rand.Float64()*(XMAX-XMIN) //nolint:gosec // crypto/rand bad performance
+		newY := YMIN + rand.Float64()*(YMAX-YMIN) //nolint:gosec // crypto/rand bad performance
 
 		for step := -20; step < it; step++ {
-			affineTransformation := (g.AffineTransformation)[rand.Intn(len(g.AffineTransformation))]
+			affineTransformation := (g.AffineTransformation)[rand.Intn(len(g.AffineTransformation))] //nolint:gosec // crypto/rand bad performance
 
+			// Apply affine transformations.
 			newX, newY = affineTransformation.Apply(newX, newY)
+
+			// Apply nonlinear transformations.
 			newX, newY = nonlinearTransformations.Apply(newX, newY)
 
+			// Symmetry.
 			tempX, tempY := newX, newY
 
 			if symmetryFlag {
@@ -75,6 +98,7 @@ func (g *Generator) Render(n, it int, nonlinearTransformations Transformation, s
 				if g.FractalImage.Contains(x1, y1) {
 					pixel := g.FractalImage.Pixel(x1, y1)
 
+					// Update pixel color and hit count.
 					pixel.UpdateColorAndHit(affineTransformation.RGB)
 				}
 			}
