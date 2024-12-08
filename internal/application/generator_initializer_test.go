@@ -3,11 +3,12 @@ package application_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/es-debug/backend-academy-2024-go-template/internal/application"
 	generatorMock "github.com/es-debug/backend-academy-2024-go-template/internal/application/mocks"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 	transformations "github.com/es-debug/backend-academy-2024-go-template/pkg/nonlinear_transformations"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestInitializeGenerator(t *testing.T) {

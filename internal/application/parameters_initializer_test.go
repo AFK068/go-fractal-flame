@@ -3,9 +3,10 @@ package application_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/es-debug/backend-academy-2024-go-template/internal/application"
 	parametrsMock "github.com/es-debug/backend-academy-2024-go-template/internal/application/mocks"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestInitializeParameters(t *testing.T) {

@@ -4,8 +4,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 )
 
 func TestUpdateColorAndHit(t *testing.T) {

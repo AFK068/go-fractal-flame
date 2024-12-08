@@ -5,8 +5,9 @@ import (
 	"log/slog"
 	"strconv"
 
-	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 	"github.com/manifoldco/promptui"
+
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 )
 
 func GetValue(message string, minValue, maxValue float64) (float64, error) {
