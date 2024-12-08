@@ -3,8 +3,9 @@ package domain_test
 import (
 	"testing"
 
-	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 )
 
 func TestNewAffineTransformation(t *testing.T) {

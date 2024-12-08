@@ -4,8 +4,9 @@ import (
 	"math"
 	"testing"
 
-	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 	"github.com/stretchr/testify/require"
+
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 )
 
 func TestFractalImage_GammaCorrection(t *testing.T) {
