@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"fmt"
+	"log/slog"
 	"strconv"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
@@ -30,11 +31,15 @@ func GetValue(message string, minValue, maxValue float64) (float64, error) {
 
 	ValueStr, err := promptValue.Run()
 	if err != nil {
+		slog.Error("failed to get value", slog.String("error", err.Error()))
+
 		return 0, fmt.Errorf("prompting value: %w", err)
 	}
 
 	value, err := strconv.ParseFloat(ValueStr, 64)
 	if err != nil {
+		slog.Error("failed to convert value to float64", slog.String("error", err.Error()))
+
 		return 0, fmt.Errorf("converting value to float64: %w", err)
 	}
 
@@ -49,6 +54,8 @@ func GetTrueOrFalse(message string) (bool, error) {
 
 	_, result, err := promt.Run()
 	if err != nil {
+		slog.Error("failed to get value", slog.String("error", err.Error()))
+
 		return false, fmt.Errorf("prompting value: %w", err)
 	}
 

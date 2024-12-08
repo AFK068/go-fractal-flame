@@ -4,6 +4,7 @@ import (
 	"image"
 	"image/color"
 	"image/png"
+	"log/slog"
 	"os"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
@@ -29,6 +30,8 @@ func SaveImage(img *domain.FractalImage, filename string) error {
 
 	file, err := os.Create(filename)
 	if err != nil {
+		slog.Error("failed to create file", slog.String("error", err.Error()))
+
 		return err
 	}
 

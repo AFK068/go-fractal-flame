@@ -28,7 +28,9 @@ func main() {
 
 	generator, err := application.InitializeGenerator(&generatorConfig)
 	if err != nil {
+		slog.Error("failed to initialize generator", slog.String("error", err.Error()))
 		fmt.Println(err)
+
 		return
 	}
 
@@ -36,7 +38,9 @@ func main() {
 
 	parametrs, err := application.InitializeParameters(&parametersConfig)
 	if err != nil {
+		slog.Error("failed to initialize parameters", slog.String("error", err.Error()))
 		fmt.Println(err)
+
 		return
 	}
 
@@ -51,7 +55,11 @@ func main() {
 
 	err = infrastructure.SaveImage(generator.FractalImage, "fractal.png")
 	if err != nil {
+		slog.Error("failed to save image", slog.String("error", err.Error()))
 		fmt.Println(err)
+
 		return
 	}
+
+	slog.Info("image saved", slog.String("filename", "fractal.png"))
 }
