@@ -5,21 +5,21 @@ import (
 	"log/slog"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
-	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/userinteraction"
 	"github.com/es-debug/backend-academy-2024-go-template/pkg/menu"
 )
 
 type GeneratorConfig struct{}
 
 func (df *GeneratorConfig) InitializeFractalImage() (*domain.FractalImage, error) {
-	width, err := infrastructure.GetValue("Enter width (min: 100, max: 9000): ", 100, 9000)
+	width, err := userinteraction.GetValue("Enter width (min: 100, max: 9000): ", 100, 9000)
 	if err != nil {
 		slog.Error("failed to get width", slog.String("error", err.Error()))
 
 		return nil, fmt.Errorf("getting width: %w", err)
 	}
 
-	height, err := infrastructure.GetValue("Enter height (min: 100, max: 9000): ", 100, 9000)
+	height, err := userinteraction.GetValue("Enter height (min: 100, max: 9000): ", 100, 9000)
 	if err != nil {
 		slog.Error("failed to get height", slog.String("error", err.Error()))
 
@@ -32,7 +32,7 @@ func (df *GeneratorConfig) InitializeFractalImage() (*domain.FractalImage, error
 }
 
 func (df *GeneratorConfig) InitializeAffineTransformations() (affineTransformations []domain.AffineTransformation, err error) {
-	count, err := infrastructure.GetValue("Enter the number of affine transformations (min: 1, max: 10, recommended: 3): ", 1, 10)
+	count, err := userinteraction.GetValue("Enter the number of affine transformations (min: 1, max: 10, recommended: 3): ", 1, 10)
 	if err != nil {
 		slog.Error("failed to get the number of affine transformations", slog.String("error", err.Error()))
 
