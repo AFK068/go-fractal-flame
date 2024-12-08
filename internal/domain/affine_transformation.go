@@ -7,7 +7,7 @@ type AffineTransformation struct {
 	RGB              RGB
 }
 
-func NewAffineTransformationMatrix() *AffineTransformation {
+func NewAffineTransformation() *AffineTransformation {
 	var a, b, c, d, e, f float64
 
 	for {
