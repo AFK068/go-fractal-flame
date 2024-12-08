@@ -20,6 +20,26 @@ func NewFractalImage(width, height int) *FractalImage {
 	return &FractalImage{data, width, height}
 }
 
+func (fi *FractalImage) Contains(x, y int) bool {
+	return x > 0 && x < fi.Width && y > 0 && y < fi.Height
+}
+
+func (fi *FractalImage) Pixel(x, y int) *Pixel {
+	if y*fi.Width+x >= len(fi.Data) || y*fi.Width+x < 0 {
+		return &Pixel{}
+	}
+
+	return &fi.Data[y*fi.Width+x]
+}
+
+func (fi *FractalImage) GetAspectRatio() float64 {
+	if fi.Height == 0 {
+		return 0
+	}
+
+	return float64(fi.Width) / float64(fi.Height)
+}
+
 func (fi *FractalImage) GammaCorrection(gamma float64) {
 	var maxNormal float64
 
@@ -46,16 +66,4 @@ func (fi *FractalImage) GammaCorrection(gamma float64) {
 			}
 		}
 	}
-}
-
-func (fi *FractalImage) Contains(x, y int) bool {
-	return x > 0 && x < fi.Width && y > 0 && y < fi.Height
-}
-
-func (fi *FractalImage) Pixel(x, y int) *Pixel {
-	return &fi.Data[y*fi.Width+x]
-}
-
-func (fi *FractalImage) GetAspectRatio() float64 {
-	return float64(fi.Width) / float64(fi.Height)
 }
