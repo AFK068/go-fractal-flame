@@ -50,9 +50,9 @@ func TestSaveImage(t *testing.T) {
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			expectedColor := color.RGBA{
-				R: uint8(x % 256),       //nolint:gosec // unreal overflow, positive mod 256
-				G: uint8(y % 256),       //nolint:gosec // unreal overflow, positive mod 256
-				B: uint8((x + y) % 256), //nolint:gosec // unreal overflow, positive mod 256
+				R: uint8(x % 256),
+				G: uint8(y % 256),
+				B: uint8((x + y) % 256),
 				A: 255,
 			}
 

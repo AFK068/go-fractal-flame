@@ -7,13 +7,13 @@ import (
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 )
 
-type GeneratorInitializer interface {
+type rendererInitializer interface {
 	InitializeFractalImage() (*domain.FractalImage, error)
 	InitializeNonlinearTransformations() (nonlinearTransformations []domain.Transformation, err error)
 	InitializeAffineTransformations() (affineTransformations []domain.AffineTransformation, err error)
 }
 
-func InitializeGenerator(initializer GeneratorInitializer) (*domain.Generator, error) {
+func InitializeRenderer(initializer rendererInitializer) (*domain.Renderer, error) {
 	fractalImage, err := initializer.InitializeFractalImage()
 	if err != nil {
 		slog.Error("failed to initialize fractal image", slog.String("error", err.Error()))
@@ -35,7 +35,7 @@ func InitializeGenerator(initializer GeneratorInitializer) (*domain.Generator, e
 		return nil, fmt.Errorf("initializing affine transformations: %w", err)
 	}
 
-	slog.Info("generator initialized successfully")
+	slog.Info("renderer initialized successfully")
 
-	return domain.NewGenerator(*fractalImage, affineTransformations, nonlinearTransformations), nil
+	return domain.NewRenderer(*fractalImage, affineTransformations, nonlinearTransformations), nil
 }

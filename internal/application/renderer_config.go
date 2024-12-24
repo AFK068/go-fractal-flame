@@ -9,17 +9,39 @@ import (
 	"github.com/es-debug/backend-academy-2024-go-template/pkg/menu"
 )
 
-type GeneratorConfig struct{}
+const (
+	// Width of the fractal image.
+	minWidthImageSize = 100
+	maxWidthImageSize = 9000
 
-func (df *GeneratorConfig) InitializeFractalImage() (*domain.FractalImage, error) {
-	width, err := userinteraction.GetValue("Enter width (min: 100, max: 9000): ", 100, 9000)
+	// Height of the fractal image.
+	minHeightImageSize = 100
+	maxHeightImageSize = 9000
+
+	// Number of affine transformations.
+	minAffineTransformations = 1
+	maxAffineTransformations = 10
+)
+
+type RendererConfig struct{}
+
+func (df *RendererConfig) InitializeFractalImage() (*domain.FractalImage, error) {
+	width, err := userinteraction.GetValue(
+		fmt.Sprintf("Enter width (min: %d, max: %d): ", minWidthImageSize, maxWidthImageSize),
+		minWidthImageSize, maxWidthImageSize,
+	)
+
 	if err != nil {
 		slog.Error("failed to get width", slog.String("error", err.Error()))
 
 		return nil, fmt.Errorf("getting width: %w", err)
 	}
 
-	height, err := userinteraction.GetValue("Enter height (min: 100, max: 9000): ", 100, 9000)
+	height, err := userinteraction.GetValue(
+		fmt.Sprintf("Enter height (min: %d, max: %d): ", minHeightImageSize, maxHeightImageSize),
+		minHeightImageSize, maxHeightImageSize,
+	)
+
 	if err != nil {
 		slog.Error("failed to get height", slog.String("error", err.Error()))
 
@@ -31,8 +53,12 @@ func (df *GeneratorConfig) InitializeFractalImage() (*domain.FractalImage, error
 	return domain.NewFractalImage(int(width), int(height)), nil
 }
 
-func (df *GeneratorConfig) InitializeAffineTransformations() (affineTransformations []domain.AffineTransformation, err error) {
-	count, err := userinteraction.GetValue("Enter the number of affine transformations (min: 1, max: 10, recommended: 3): ", 1, 10)
+func (df *RendererConfig) InitializeAffineTransformations() (affineTransformations []domain.AffineTransformation, err error) {
+	count, err := userinteraction.GetValue(
+		fmt.Sprintf("Enter the number of affine transformations (min: %d, max: %d): ", minAffineTransformations, maxAffineTransformations),
+		minAffineTransformations, maxAffineTransformations,
+	)
+
 	if err != nil {
 		slog.Error("failed to get the number of affine transformations", slog.String("error", err.Error()))
 
@@ -48,7 +74,7 @@ func (df *GeneratorConfig) InitializeAffineTransformations() (affineTransformati
 	return affineTransformations, nil
 }
 
-func (df *GeneratorConfig) InitializeNonlinearTransformations() (nonlinearTransformations []domain.Transformation, err error) {
+func (df *RendererConfig) InitializeNonlinearTransformations() (nonlinearTransformations []domain.Transformation, err error) {
 	availableTransformations := GetTransformations()
 
 	// Create a new menu.

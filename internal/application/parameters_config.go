@@ -7,10 +7,24 @@ import (
 	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/userinteraction"
 )
 
+const (
+	// Number of iterations.
+	minCountOfIterations = 100000
+	maxCountOfIterations = 3000000
+
+	// Gamma value.
+	minGamma = 0.1
+	maxGamma = 10.0
+)
+
 type ParametersConfig struct{}
 
 func (df *ParametersConfig) InitializeIterations() (iterations float64, err error) {
-	iterations, err = userinteraction.GetValue("Enter iterations (min: 10.0000, max: 3.000.000, recommended: 1.000.000): ", 100000, 3000000)
+	iterations, err = userinteraction.GetValue(
+		fmt.Sprintf("Enter iterations (min: %d, max: %d): ", minCountOfIterations, maxCountOfIterations),
+		minCountOfIterations, maxCountOfIterations,
+	)
+
 	if err != nil {
 		slog.Error("failed to get iterations", slog.String("error", err.Error()))
 
@@ -36,7 +50,11 @@ func (df *ParametersConfig) InitializeGamma() (gamma float64, flag bool, err err
 		return 0, false, nil
 	}
 
-	gamma, err = userinteraction.GetValue("Enter gamma (min: 0.1, max: 10, recommended: 2.2): ", 0.1, 10)
+	gamma, err = userinteraction.GetValue(
+		fmt.Sprintf("Enter gamma (min: %.1f, max: %.1f, recommended: 2.2): ", minGamma, maxGamma),
+		minGamma, maxGamma,
+	)
+
 	if err != nil {
 		slog.Error("failed to get gamma", slog.String("error", err.Error()))
 

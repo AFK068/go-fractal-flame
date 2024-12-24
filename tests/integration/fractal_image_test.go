@@ -22,7 +22,7 @@ func TestFractalImage_GammaCorrection(t *testing.T) {
 			pixel := img.Pixel(x, y)
 			tempPixel := tempImage.Pixel(x, y)
 
-			pixel.HitCount = (uint64(x) + uint64(y)) % 10 //nolint:gosec // unreal overflow
+			pixel.HitCount = (uint64(x) + uint64(y)) % 10
 			tempPixel.HitCount = pixel.HitCount
 
 			pixel.RGB = domain.RGB{
