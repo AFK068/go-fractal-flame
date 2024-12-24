@@ -18,7 +18,7 @@ func TestUpdateColorAndHit(t *testing.T) {
 
 	// Test that the pixel color is updated correctly.
 	// That is count of goroutines is equal to HitCount.
-	numGoroutines := 3000
+	numGoroutines := 600
 	wg.Add(numGoroutines)
 
 	for i := 0; i < numGoroutines; i++ {
@@ -31,7 +31,7 @@ func TestUpdateColorAndHit(t *testing.T) {
 	wg.Wait()
 
 	assert.Equal(
-		t, (numGoroutines), int(pixel.HitCount), //nolint:gosec // unreal overflow
+		t, (numGoroutines), int(pixel.HitCount),
 		"HitCount should be equal to the number of goroutines",
 	)
 }

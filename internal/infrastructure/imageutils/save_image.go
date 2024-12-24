@@ -18,9 +18,9 @@ func SaveImage(img *domain.FractalImage, filename string) error {
 			pixel := img.Pixel(x, y)
 
 			col := color.RGBA{
-				R: uint8(pixel.RGB.R % 256), //nolint:gosec // unreal overflow, positive mod 256
-				G: uint8(pixel.RGB.G % 256), //nolint:gosec // unreal overflow, positive mod 256
-				B: uint8(pixel.RGB.B % 256), //nolint:gosec // unreal overflow, positive mod 256
+				R: uint8(pixel.RGB.R % 256),
+				G: uint8(pixel.RGB.G % 256),
+				B: uint8(pixel.RGB.B % 256),
 				A: uint8(255),
 			}
 

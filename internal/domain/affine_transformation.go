@@ -11,12 +11,12 @@ func NewAffineTransformation() *AffineTransformation {
 	var a, b, c, d, e, f float64
 
 	for {
-		a = rand.Float64()*2 - 1 //nolint:gosec // crypto/rand bad performance
-		b = rand.Float64()*2 - 1 //nolint:gosec // crypto/rand bad performance
-		d = rand.Float64()*2 - 1 //nolint:gosec // crypto/rand bad performance
-		e = rand.Float64()*2 - 1 //nolint:gosec // crypto/rand bad performance
-		c = rand.Float64()*2 - 1 //nolint:gosec // crypto/rand bad performance
-		f = rand.Float64()*2 - 1 //nolint:gosec // crypto/rand bad performance
+		a = rand.Float64()*2 - 1
+		b = rand.Float64()*2 - 1
+		d = rand.Float64()*2 - 1
+		e = rand.Float64()*2 - 1
+		c = rand.Float64()*2 - 1
+		f = rand.Float64()*2 - 1
 
 		// Check that the transformation is compressive.
 		if a*a+d*d < 1 && b*b+e*e < 1 && a*a+b*b+d*d+e*e < 1+(a*e-b*d)*(a*e-b*d) {
@@ -27,9 +27,9 @@ func NewAffineTransformation() *AffineTransformation {
 	return &AffineTransformation{
 		A: a, B: b, C: c, D: d, E: e, F: f,
 		RGB: RGB{
-			R: rand.Intn(256), //nolint:gosec // crypto/rand bad performance
-			G: rand.Intn(256), //nolint:gosec // crypto/rand bad performance
-			B: rand.Intn(256), //nolint:gosec // crypto/rand bad performance
+			R: rand.Intn(256),
+			G: rand.Intn(256),
+			B: rand.Intn(256),
 		},
 	}
 }

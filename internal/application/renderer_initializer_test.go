@@ -6,13 +6,13 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/application"
-	generatorMock "github.com/es-debug/backend-academy-2024-go-template/internal/application/mocks"
+	rendererMock "github.com/es-debug/backend-academy-2024-go-template/internal/application/mocks"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
 	transformations "github.com/es-debug/backend-academy-2024-go-template/pkg/nonlinear_transformations"
 )
 
-func TestInitializeGenerator(t *testing.T) {
-	mockInitializer := generatorMock.NewGeneratorInitializer(t)
+func TestInitializeRenderer(t *testing.T) {
+	mockInitializer := rendererMock.NewRendererInitializer(t)
 
 	image := domain.NewFractalImage(1000, 1000)
 
@@ -30,12 +30,12 @@ func TestInitializeGenerator(t *testing.T) {
 	mockInitializer.On("InitializeNonlinearTransformations").Return(nonlinearTransformations, nil)
 	mockInitializer.On("InitializeAffineTransformations").Return(affineTransformations, nil)
 
-	generator, err := application.InitializeGenerator(mockInitializer)
+	renderer, err := application.InitializeRenderer(mockInitializer)
 
 	assert.NoError(t, err)
-	assert.NotNil(t, generator)
+	assert.NotNil(t, renderer)
 
-	assert.Equal(t, image, generator.FractalImage)
-	assert.Equal(t, affineTransformations, generator.AffineTransformation)
-	assert.Equal(t, nonlinearTransformations, generator.NonlinearTransformation)
+	assert.Equal(t, image, renderer.FractalImage)
+	assert.Equal(t, affineTransformations, renderer.AffineTransformation)
+	assert.Equal(t, nonlinearTransformations, renderer.NonlinearTransformation)
 }

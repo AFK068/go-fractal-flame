@@ -9,6 +9,10 @@ import (
 	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/logger"
 )
 
+const (
+	saveImageFilename = "fractal.png"
+)
+
 func main() {
 	customLogger, err := logger.InitLogger()
 	if err != nil {
@@ -24,12 +28,11 @@ func main() {
 		}
 	}()
 
-	generatorConfig := application.GeneratorConfig{}
+	rendererConfig := application.RendererConfig{}
 
-	generator, err := application.InitializeGenerator(&generatorConfig)
+	renderer, err := application.InitializeRenderer(&rendererConfig)
 	if err != nil {
-		slog.Error("failed to initialize generator", slog.String("error", err.Error()))
-		fmt.Println(err)
+		slog.Error("failed to initialize renderer", slog.String("error", err.Error()))
 
 		return
 	}
@@ -39,27 +42,24 @@ func main() {
 	parametrs, err := application.InitializeParameters(&parametersConfig)
 	if err != nil {
 		slog.Error("failed to initialize parameters", slog.String("error", err.Error()))
-		fmt.Println(err)
 
 		return
 	}
 
-	generator.Generate(
+	renderer.Generate(
 		int(parametrs.Iterations),
-		100, // Count of it.
 		parametrs.Gamma,
 		parametrs.GammaFlag,
 		parametrs.Symmetry,
 		parametrs.Concurrent,
 	)
 
-	err = imageutils.SaveImage(generator.FractalImage, "fractal.png")
+	err = imageutils.SaveImage(renderer.FractalImage, saveImageFilename)
 	if err != nil {
 		slog.Error("failed to save image", slog.String("error", err.Error()))
-		fmt.Println(err)
 
 		return
 	}
 
-	slog.Info("image saved", slog.String("filename", "fractal.png"))
+	slog.Info("image saved", slog.String("filename", saveImageFilename))
 }
