@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	countOfSteps = 10
+	countOfSteps = 100
 )
 
 type Transformation interface {
